@@ -9,21 +9,21 @@ from wordmanager import WordManager
 guild_ids=[931281545933762571]
 
 def load(bot: commands.Bot):
-    @bot.slash_command(guild_ids=guild_ids)
+    @bot.command()
     async def about(ctx: commands.Context):
         mbd = Embed()
         mbd.title = "WordJam"
         mbd.description = "A discord bot emulating the game Wordle."
         mbd.add_field(name="Version", value="Alpha 1")
-        await ctx.respond(embed=mbd)
+        await ctx.send(embed=mbd)
 
-    @bot.slash_command(guild_ids=guild_ids)
+    @bot.command(guild_ids=guild_ids)
     async def random(ctx: commands.Context):
         if GameManager.hasGame(ctx.author):
-            await ctx.respond("Game already ongoing.")
+            await ctx.send(content="Game already ongoing.")
         else:
             await GameManager.createGame(ctx.author)
-            await ctx.respond("Game started.")
+            await ctx.send(content="Game started.")
 
     @bot.command()
     async def guess(ctx: commands.Context, guess: str.lower):
