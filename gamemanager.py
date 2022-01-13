@@ -34,6 +34,18 @@ class Game:
         if len(guess) != len(self.word):
             return None
 
+        if not WordManager.containsWord(guess):
+            return None
+
+        guessValidity = self.validity(guess)
+
+        self.guesses.append(guess)
+        return guessValidity
+
+    def numGuesses(self):
+        return len(self.guesses)
+
+    def validity(self, guess: str):
         guessValidity = []
         for index, letter in enumerate([char for char in guess]):
             if self.word[index] == letter:
@@ -42,8 +54,7 @@ class Game:
                 guessValidity.append(Guess.WRONGPOS)
             else:
                 guessValidity.append(Guess.WRONG)
-
-        self.guesses.append(guess)
+        
         return guessValidity
 
 class GameManager:
@@ -64,12 +75,12 @@ class GameManager:
         if GameManager.hasGame(user):
             return None
         else:
-            newgame = Game(user, WordManager.getRandomWord(), 5)
+            newgame = Game(user, WordManager.getRandomWord(), 6)
             GameManager.active_games.append(newgame)
             dmchannel = user.dm_channel
             if dmchannel is None:
                 dmchannel = await user.create_dm()
-            await dmchannel.send("Game started\nUse `!guess <word>` to make a guess\nWord: " + newgame.word)
+            await dmchannel.send(f"Game started\nUse `!guess <word>` to make a guess\nWord Length: {len(newgame.word)}\nWord: {newgame.word}")
             return newgame
 
     @staticmethod

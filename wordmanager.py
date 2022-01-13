@@ -17,3 +17,8 @@ class WordManager:
         if not WordManager.loaded:
             WordManager.loadWords("words-five.txt")
         return random.choice(WordManager.words)
+    
+    def containsWord(word: str) -> bool:
+        if not WordManager.loaded:
+            WordManager.loadWords("words-five.txt")
+        return word in WordManager.words

@@ -31,8 +31,12 @@ def load(bot: commands.Bot):
             if GameManager.hasGame(ctx.author):
                 game = GameManager.getGame(ctx.author)
                 response = game.makeGuess(guess)
-                readableResponse = "".join([Guess.getEmoji(guess) for guess in response])
-                await ctx.send(readableResponse)
+                if response is None:
+                    await ctx.send("Invalid guess.")
+                else:
+                    readableResponse = "".join([Guess.getEmoji(guess) for guess in response])
+                    fullResponse = f"Guess {game.numGuesses()}/{game.maxRounds} - {guess}\n{readableResponse}"
+                    await ctx.send(fullResponse)
 
                 if game.isLost():
                     GameManager.gameEnd(game)
