@@ -17,14 +17,6 @@ def load(bot: commands.Bot):
         mbd.add_field(name="Version", value="Alpha 1")
         await ctx.send(embed=mbd)
 
-    @bot.command(guild_ids=guild_ids)
-    async def random(ctx: commands.Context):
-        if GameManager.hasGame(ctx.author):
-            await ctx.send(content="Game already ongoing.")
-        else:
-            await GameManager.createGame(ctx.author)
-            await ctx.send(content="Game started.")
-
     @bot.command()
     async def guess(ctx: commands.Context, guess: str.lower):
         if isinstance(ctx.channel, discord.DMChannel):
