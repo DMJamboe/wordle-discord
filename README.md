@@ -1,2 +1,2 @@
-# wordly-discord
-An implementation of the game Wordly as a discord bot.
+# wordle-discord
+An implementation of the game Wordle as a discord bot.
